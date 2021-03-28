@@ -1,12 +1,15 @@
 import queryfunction
 from pytube import YouTube
 from moviepy.editor import *
+import moviepy.editor as mp
 import re
 from os import listdir
 import os
 from moviepy import *
 import time
 from natsort import natsorted
+import random
+from random import randrange
 
 #the tmp folder that is created to host the files
 tgt_folder = "\youtube-recycle-bot\output"
@@ -34,6 +37,10 @@ for x in listofsongs:
     w = YouTube(youtube_link).streams.first()
     w.download(output_path="\youtube-recycle-bot\output")
 
+try:
+    os.mkdir("\youtube-recycle-bot\images")
+except FileExistsError :
+    pass
 
 
 #converts the mp4 to mp3 (make sure to change the output path so it does not interfere with the other code)
@@ -46,14 +53,14 @@ for x in listofsongs:
 #renames the files for easier converion
 filecounter = 0
 for file_name in listdir(tgt_folder):
- os.rename(tgt_folder + "\\"+ file_name,tgt_folder + "\\"+"Video"+str(filecounter)+".mp4")
- filecounter = filecounter + 1
+    try:
+        os.rename(tgt_folder + "\\"+ file_name,tgt_folder + "\\"+"Video"+str(filecounter)+".mp4")
+    except FileExistsError:
+        os.remove(tgt_folder + "\\"+ file_name,tgt_folder + "\\"+"Video"+str(filecounter)+".mp4")
+    filecounter = filecounter + 1
 
-#end=False
-#first = 0
-#second = 1
+
 fin = 0
-#vid = "Video"
 #this thing does not work but i'm keeping it anyway
 #for file_name in listdir(tgt_folder):
     #try:
@@ -80,14 +87,33 @@ for root, dirs, files in os.walk(tgt_folder):
     for file in files:
         if os.path.splitext(file)[1] == '.mp4':
             filePath = os.path.join(root, file)
-            video = VideoFileClip(filePath)
+            video = VideoFileClip(filePath,has_mask=True)
             L.append(video)
 
-final_clip = concatenate_videoclips(L)
-final_clip.to_videofile(tgt_folder+"final"+ str(fin)+".mp4", fps=24, remove_temp=True)
 
+#adds the image to the video
+imagecounter=0
+for imagefile in [n for n in os.listdir("\youtube-recycle-bot"+"\\"+"images") if re.search('jpg',n)]:
+    os.rename("\youtube-recycle-bot"+"\\"+"images"+"\\"+imagefile,"\youtube-recycle-bot"+"\\"+"images"+"\\"+str(imagecounter)+".jpg")
+    imagecounter=imagecounter+1
+
+try:
+   imagenumber=randrange(0,imagecounter)
+except ValueError :
+    imagenumber=0
+    pass
+
+
+logo = (mp.ImageClip("\youtube-recycle-bot"+"\\"+"images"+"\\"+str(imagenumber)+".jpg")
+          .set_duration(concatenate_videoclips(L).duration)
+          .set_pos(("center"))
+          .resize(height=concatenate_videoclips(L).h, width=concatenate_videoclips(L).w))
+final_clip = mp.CompositeVideoClip([concatenate_videoclips(L), logo])
+final_clip.to_videofile(tgt_folder+"noimage"+ str(fin)+".mp4", fps=24, remove_temp=True)
+
+#removes the downloaded videos and leaves the contracarated one
 for file_name in listdir(tgt_folder):
+    time.sleep(1)
     os.remove(tgt_folder + "\\"+ file_name)
-
 
 
