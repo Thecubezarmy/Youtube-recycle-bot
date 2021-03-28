@@ -88,11 +88,15 @@ logo = (mp.ImageClip("\youtube-recycle-bot"+"\\"+"images"+"\\"+str(imagenumber)+
           .set_pos(("center"))
           .resize(height=video.h, width=video.w))
 final_clip = mp.CompositeVideoClip([concatenate_videoclips(L), logo])
-final_clip.to_videofile(tgt_folder+"noimage"+ str(fin)+".mp4", fps=24, remove_temp=True)
+try:
+    final_clip.to_videofile(tgt_folder+"final"+ str(fin)+".mp4", fps=24, remove_temp=True)
+except FileExistsError :
+    fin=fin+randrange(1,999999999999)
+    final_clip.to_videofile(tgt_folder+"final"+ str(fin)+".mp4", fps=24, remove_temp=True)
+    pass
+
 
 #removes the downloaded videos and leaves the contracarated one
 for file_name in listdir(tgt_folder):
     time.sleep(1)
     os.remove(tgt_folder + "\\"+ file_name)
-
-
