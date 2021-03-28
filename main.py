@@ -107,7 +107,7 @@ except ValueError :
 logo = (mp.ImageClip("\youtube-recycle-bot"+"\\"+"images"+"\\"+str(imagenumber)+".jpg")
           .set_duration(concatenate_videoclips(L).duration)
           .set_pos(("center"))
-          .resize(height=concatenate_videoclips(L).h, width=concatenate_videoclips(L).w))
+          .resize(height=video.h, width=video.w))
 final_clip = mp.CompositeVideoClip([concatenate_videoclips(L), logo])
 final_clip.to_videofile(tgt_folder+"noimage"+ str(fin)+".mp4", fps=24, remove_temp=True)
 
