@@ -56,7 +56,8 @@ for file_name in listdir(tgt_folder):
     try:
         os.rename(tgt_folder + "\\"+ file_name,tgt_folder + "\\"+"Video"+str(filecounter)+".mp4")
     except FileExistsError:
-        os.remove(tgt_folder + "\\"+ file_name,tgt_folder + "\\"+"Video"+str(filecounter)+".mp4")
+        os.remove(tgt_folder + "\\"+"Video"+str(filecounter)+".mp4")
+        os.rename(tgt_folder + "\\"+ file_name,tgt_folder + "\\"+"Video"+str(filecounter)+".mp4")
     filecounter = filecounter + 1
 
 
