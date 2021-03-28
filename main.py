@@ -57,23 +57,6 @@ for file_name in listdir(tgt_folder):
 
 
 fin = 0
-#this thing does not work but i'm keeping it anyway
-#for file_name in listdir(tgt_folder):
-    #try:
-     #clip1= VideoFileClip(tgt_folder + "\\"+vid+str(first)+".mp4")
-     #clip2= VideoFileClip(tgt_folder + "\\"+"Video"+str(second)+".mp4")
-    #except IOError:
-        #pass
-    #final_clip= concatenate_videoclips([clip1,clip2])
-    #final_clip.write_videofile(tgt_folder+"zfinal"+ str(fin)+".mp4",codec='libx264')
-    #time.sleep(3)
-    #os.remove(tgt_folder + "\\"+"Video"+str(first)+".mp4")
-    #os.remove(tgt_folder + "\\"+"Video"+str(second)+".mp4")
-    #fin = first
-    #vid = "zfinal"
-    #second = second+1
-
-
 #this makes all the small mp4 files into a big mp4 file
 L =[]
 for root, dirs, files in os.walk(tgt_folder):
