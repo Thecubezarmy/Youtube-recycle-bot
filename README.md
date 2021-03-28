@@ -1,6 +1,6 @@
 # youtube-recycle-bot
 
-A simple scraper program that takes a list of songs,gets the first results of a yoube query of those songs combines all the videos into a large mp4 and applies a .jpg on top
+A simple scraper program that takes a list of songs,gets the first results of a youtube query of those songs combines all the videos into a large mp4 and applies a .jpg on top
 
 To install, clone this repository and install the requirements
 
